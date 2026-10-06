@@ -24,7 +24,7 @@ import {
   type Candidate,
 } from "@/data/mock";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/app/")({
   head: () => ({
     meta: [
       { title: "Dashboard — Recruit ERP" },
@@ -79,7 +79,7 @@ function Dashboard() {
       <section className="rounded-2xl border border-border bg-card p-6">
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-xl font-bold tracking-tight">Pipeline overview</h3>
-          <Link to="/pipeline" className="inline-flex items-center gap-1 text-sm font-semibold hover:underline">
+          <Link to="/app/pipeline" className="inline-flex items-center gap-1 text-sm font-semibold hover:underline">
             Open pipeline <ArrowRight className="size-4" strokeWidth={1.75} />
           </Link>
         </div>

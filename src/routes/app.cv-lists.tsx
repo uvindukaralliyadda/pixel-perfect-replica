@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { FileText } from "lucide-react";
 import { EmptyState } from "@/components/erp/EmptyState";
 
-export const Route = createFileRoute("/cv-lists")({
+export const Route = createFileRoute("/app/cv-lists")({
   head: () => ({
     meta: [
       { title: "CV Lists — Recruit ERP" },

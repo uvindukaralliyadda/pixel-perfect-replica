@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Settings } from "lucide-react";
 import { EmptyState } from "@/components/erp/EmptyState";
 
-export const Route = createFileRoute("/settings")({
+export const Route = createFileRoute("/app/settings")({
   head: () => ({
     meta: [
       { title: "Settings — Recruit ERP" },
