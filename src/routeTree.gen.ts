@@ -10,33 +10,91 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CandidatesRouteImport } from './routes/candidates'
+import { Route as CvListsRouteImport } from './routes/cv-lists'
+import { Route as JobsRouteImport } from './routes/jobs'
+import { Route as PipelineRouteImport } from './routes/pipeline'
+import { Route as SettingsRouteImport } from './routes/settings'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CandidatesRoute = CandidatesRouteImport.update({
+  id: '/candidates',
+  path: '/candidates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CvListsRoute = CvListsRouteImport.update({
+  id: '/cv-lists',
+  path: '/cv-lists',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JobsRoute = JobsRouteImport.update({
+  id: '/jobs',
+  path: '/jobs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PipelineRoute = PipelineRouteImport.update({
+  id: '/pipeline',
+  path: '/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/candidates': typeof CandidatesRoute
+  '/cv-lists': typeof CvListsRoute
+  '/jobs': typeof JobsRoute
+  '/pipeline': typeof PipelineRoute
+  '/settings': typeof SettingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/candidates': typeof CandidatesRoute
+  '/cv-lists': typeof CvListsRoute
+  '/jobs': typeof JobsRoute
+  '/pipeline': typeof PipelineRoute
+  '/settings': typeof SettingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/candidates': typeof CandidatesRoute
+  '/cv-lists': typeof CvListsRoute
+  '/jobs': typeof JobsRoute
+  '/pipeline': typeof PipelineRoute
+  '/settings': typeof SettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/candidates' | '/cv-lists' | '/jobs' | '/pipeline' | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/candidates' | '/cv-lists' | '/jobs' | '/pipeline' | '/settings'
+  id:
+    | '__root__'
+    | '/'
+    | '/candidates'
+    | '/cv-lists'
+    | '/jobs'
+    | '/pipeline'
+    | '/settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CandidatesRoute: typeof CandidatesRoute
+  CvListsRoute: typeof CvListsRoute
+  JobsRoute: typeof JobsRoute
+  PipelineRoute: typeof PipelineRoute
+  SettingsRoute: typeof SettingsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +106,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/candidates': {
+      id: '/candidates'
+      path: '/candidates'
+      fullPath: '/candidates'
+      preLoaderRoute: typeof CandidatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cv-lists': {
+      id: '/cv-lists'
+      path: '/cv-lists'
+      fullPath: '/cv-lists'
+      preLoaderRoute: typeof CvListsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jobs': {
+      id: '/jobs'
+      path: '/jobs'
+      fullPath: '/jobs'
+      preLoaderRoute: typeof JobsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline': {
+      id: '/pipeline'
+      path: '/pipeline'
+      fullPath: '/pipeline'
+      preLoaderRoute: typeof PipelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CandidatesRoute: CandidatesRoute,
+  CvListsRoute: CvListsRoute,
+  JobsRoute: JobsRoute,
+  PipelineRoute: PipelineRoute,
+  SettingsRoute: SettingsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
