@@ -94,10 +94,10 @@ export const CANDIDATES: Candidate[] = STAGE_SPREAD.map((stage, i) => {
     name: `${FIRST[i % FIRST.length]} ${LAST[(i * 3) % LAST.length]}`,
     nic: `${199000000 + i * 3137}V`,
     phone: `+94 77 ${String(1000000 + i * 4321).slice(0, 7)}`,
-    jobId: JOBS[i % JOBS.length].id,
+    jobId: JOBS[i % JOBS.length]!.id,
     stage,
     appliedDate: d.toISOString(),
-    daysInStage: [2, 7, 9, 3, 7, 1, 12, 4][i % 8],
+    daysInStage: [2, 7, 9, 3, 7, 1, 12, 4][i % 8] ?? 0,
   };
 });
 
