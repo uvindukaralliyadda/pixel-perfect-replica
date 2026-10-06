@@ -115,11 +115,13 @@ export const recentApplications = () =>
 
 export const needsAttention = () => CANDIDATES.filter((c) => c.daysInStage >= 7).slice(0, 4);
 
-export const DASHBOARD_STATS = {
+export const dashboardStats = () => ({
   newApplications: { value: CANDIDATES.filter((c) => c.stage === "applied").length, trend: "+12 today" },
   activeCandidates: { value: CANDIDATES.filter((c) => c.stage !== "departure").length, trend: "+5 this week" },
   openJobs: { value: JOBS.filter((j) => j.status === "open").length, trend: "+2 this month" },
   departures: { value: CANDIDATES.filter((c) => c.stage === "departure").length, trend: "+1 today" },
-};
+});
 
 export const CURRENT_USER = { name: "Staff User", role: "Admin", initials: "SU" };
+
+export const jobById = (id: string) => JOBS.find((j) => j.id === id)!;

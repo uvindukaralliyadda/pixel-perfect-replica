@@ -15,7 +15,7 @@ import { StageStepper } from "@/components/erp/StageStepper";
 import { DataTable, type Column } from "@/components/erp/DataTable";
 import { StatusPill } from "@/components/erp/StatusPill";
 import {
-  DASHBOARD_STATS,
+  dashboardStats,
   jobById,
   needsAttention,
   recentApplications,
@@ -23,6 +23,7 @@ import {
   stageCounts,
   type Candidate,
 } from "@/data/mock";
+import { useMockStore } from "@/data/store";
 
 export const Route = createFileRoute("/app/")({
   head: () => ({
@@ -54,6 +55,8 @@ function greeting() {
 
 function Dashboard() {
   const today = new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  useMockStore();
+  const DASHBOARD_STATS = dashboardStats();
   const stuck = needsAttention();
 
   return (
