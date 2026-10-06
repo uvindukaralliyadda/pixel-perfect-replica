@@ -9,7 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteImport } from './routes/app'
+import { Route as JobsRouteImport } from './routes/jobs'
+import { Route as RecruitersRouteImport } from './routes/recruiters'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppCandidatesRouteImport } from './routes/app.candidates'
 import { Route as AppCvListsRouteImport } from './routes/app.cv-lists'
@@ -17,9 +20,24 @@ import { Route as AppJobsRouteImport } from './routes/app.jobs'
 import { Route as AppPipelineRouteImport } from './routes/app.pipeline'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
 
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppRoute = AppRouteImport.update({
   id: '/app',
   path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JobsRoute = JobsRouteImport.update({
+  id: '/jobs',
+  path: '/jobs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecruitersRoute = RecruitersRouteImport.update({
+  id: '/recruiters',
+  path: '/recruiters',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
@@ -54,7 +72,10 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/jobs': typeof JobsRoute
+  '/recruiters': typeof RecruitersRoute
   '/app/candidates': typeof AppCandidatesRoute
   '/app/cv-lists': typeof AppCvListsRoute
   '/app/jobs': typeof AppJobsRoute
@@ -63,6 +84,9 @@ export interface FileRoutesByFullPath {
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/jobs': typeof JobsRoute
+  '/recruiters': typeof RecruitersRoute
   '/app/candidates': typeof AppCandidatesRoute
   '/app/cv-lists': typeof AppCvListsRoute
   '/app/jobs': typeof AppJobsRoute
@@ -72,7 +96,10 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/jobs': typeof JobsRoute
+  '/recruiters': typeof RecruitersRoute
   '/app/candidates': typeof AppCandidatesRoute
   '/app/cv-lists': typeof AppCvListsRoute
   '/app/jobs': typeof AppJobsRoute
@@ -83,7 +110,10 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/app'
+    | '/jobs'
+    | '/recruiters'
     | '/app/candidates'
     | '/app/cv-lists'
     | '/app/jobs'
@@ -92,6 +122,9 @@ export interface FileRouteTypes {
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
+    | '/jobs'
+    | '/recruiters'
     | '/app/candidates'
     | '/app/cv-lists'
     | '/app/jobs'
@@ -100,7 +133,10 @@ export interface FileRouteTypes {
     | '/app'
   id:
     | '__root__'
+    | '/'
     | '/app'
+    | '/jobs'
+    | '/recruiters'
     | '/app/candidates'
     | '/app/cv-lists'
     | '/app/jobs'
@@ -110,16 +146,40 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
+  JobsRoute: typeof JobsRoute
+  RecruitersRoute: typeof RecruitersRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app': {
       id: '/app'
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jobs': {
+      id: '/jobs'
+      path: '/jobs'
+      fullPath: '/jobs'
+      preLoaderRoute: typeof JobsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recruiters': {
+      id: '/recruiters'
+      path: '/recruiters'
+      fullPath: '/recruiters'
+      preLoaderRoute: typeof RecruitersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/': {
@@ -188,7 +248,10 @@ const AppRouteChildren: AppRouteChildren = {
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
+  JobsRoute: JobsRoute,
+  RecruitersRoute: RecruitersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
