@@ -37,7 +37,7 @@ export function AppSidebar({ collapsed = false, onToggle, onNavigate }: Props) {
       <nav aria-label="Main" className="flex-1 overflow-y-auto px-3 py-2">
         <ul className="space-y-1">
           {NAV_ITEMS.map((item) => {
-            const active = item.to === "/" ? path === "/" : path.startsWith(item.to);
+            const active = item.to === "/app" ? path === "/app" || path === "/app/" : path.startsWith(item.to);
             return (
               <li key={item.to}>
                 <Tip show={collapsed} label={item.title}>

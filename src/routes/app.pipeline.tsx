@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Kanban } from "lucide-react";
 import { EmptyState } from "@/components/erp/EmptyState";
 
-export const Route = createFileRoute("/pipeline")({
+export const Route = createFileRoute("/app/pipeline")({
   head: () => ({
     meta: [
       { title: "Pipeline — Recruit ERP" },

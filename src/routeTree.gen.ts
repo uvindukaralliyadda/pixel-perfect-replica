@@ -10,25 +10,24 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as CandidatesRouteImport } from './routes/candidates'
-import { Route as CvListsRouteImport } from './routes/cv-lists'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as JobsRouteImport } from './routes/jobs'
-import { Route as PipelineRouteImport } from './routes/pipeline'
-import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as RecruitersRouteImport } from './routes/recruiters'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppCandidatesRouteImport } from './routes/app.candidates'
+import { Route as AppCvListsRouteImport } from './routes/app.cv-lists'
+import { Route as AppJobsRouteImport } from './routes/app.jobs'
+import { Route as AppPipelineRouteImport } from './routes/app.pipeline'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CandidatesRoute = CandidatesRouteImport.update({
-  id: '/candidates',
-  path: '/candidates',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CvListsRoute = CvListsRouteImport.update({
-  id: '/cv-lists',
-  path: '/cv-lists',
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JobsRoute = JobsRouteImport.update({
@@ -36,65 +35,121 @@ const JobsRoute = JobsRouteImport.update({
   path: '/jobs',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PipelineRoute = PipelineRouteImport.update({
-  id: '/pipeline',
-  path: '/pipeline',
+const RecruitersRoute = RecruitersRouteImport.update({
+  id: '/recruiters',
+  path: '/recruiters',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SettingsRoute = SettingsRouteImport.update({
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCandidatesRoute = AppCandidatesRouteImport.update({
+  id: '/candidates',
+  path: '/candidates',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCvListsRoute = AppCvListsRouteImport.update({
+  id: '/cv-lists',
+  path: '/cv-lists',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppJobsRoute = AppJobsRouteImport.update({
+  id: '/jobs',
+  path: '/jobs',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPipelineRoute = AppPipelineRouteImport.update({
+  id: '/pipeline',
+  path: '/pipeline',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/candidates': typeof CandidatesRoute
-  '/cv-lists': typeof CvListsRoute
+  '/app': typeof AppRouteWithChildren
   '/jobs': typeof JobsRoute
-  '/pipeline': typeof PipelineRoute
-  '/settings': typeof SettingsRoute
+  '/recruiters': typeof RecruitersRoute
+  '/app/candidates': typeof AppCandidatesRoute
+  '/app/cv-lists': typeof AppCvListsRoute
+  '/app/jobs': typeof AppJobsRoute
+  '/app/pipeline': typeof AppPipelineRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/candidates': typeof CandidatesRoute
-  '/cv-lists': typeof CvListsRoute
   '/jobs': typeof JobsRoute
-  '/pipeline': typeof PipelineRoute
-  '/settings': typeof SettingsRoute
+  '/recruiters': typeof RecruitersRoute
+  '/app/candidates': typeof AppCandidatesRoute
+  '/app/cv-lists': typeof AppCvListsRoute
+  '/app/jobs': typeof AppJobsRoute
+  '/app/pipeline': typeof AppPipelineRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/candidates': typeof CandidatesRoute
-  '/cv-lists': typeof CvListsRoute
+  '/app': typeof AppRouteWithChildren
   '/jobs': typeof JobsRoute
-  '/pipeline': typeof PipelineRoute
-  '/settings': typeof SettingsRoute
+  '/recruiters': typeof RecruitersRoute
+  '/app/candidates': typeof AppCandidatesRoute
+  '/app/cv-lists': typeof AppCvListsRoute
+  '/app/jobs': typeof AppJobsRoute
+  '/app/pipeline': typeof AppPipelineRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/candidates' | '/cv-lists' | '/jobs' | '/pipeline' | '/settings'
+    | '/'
+    | '/app'
+    | '/jobs'
+    | '/recruiters'
+    | '/app/candidates'
+    | '/app/cv-lists'
+    | '/app/jobs'
+    | '/app/pipeline'
+    | '/app/settings'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/candidates' | '/cv-lists' | '/jobs' | '/pipeline' | '/settings'
+  to:
+    | '/'
+    | '/jobs'
+    | '/recruiters'
+    | '/app/candidates'
+    | '/app/cv-lists'
+    | '/app/jobs'
+    | '/app/pipeline'
+    | '/app/settings'
+    | '/app'
   id:
     | '__root__'
     | '/'
-    | '/candidates'
-    | '/cv-lists'
+    | '/app'
     | '/jobs'
-    | '/pipeline'
-    | '/settings'
+    | '/recruiters'
+    | '/app/candidates'
+    | '/app/cv-lists'
+    | '/app/jobs'
+    | '/app/pipeline'
+    | '/app/settings'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CandidatesRoute: typeof CandidatesRoute
-  CvListsRoute: typeof CvListsRoute
+  AppRoute: typeof AppRouteWithChildren
   JobsRoute: typeof JobsRoute
-  PipelineRoute: typeof PipelineRoute
-  SettingsRoute: typeof SettingsRoute
+  RecruitersRoute: typeof RecruitersRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -106,18 +161,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/candidates': {
-      id: '/candidates'
-      path: '/candidates'
-      fullPath: '/candidates'
-      preLoaderRoute: typeof CandidatesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cv-lists': {
-      id: '/cv-lists'
-      path: '/cv-lists'
-      fullPath: '/cv-lists'
-      preLoaderRoute: typeof CvListsRouteImport
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/jobs': {
@@ -127,30 +175,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JobsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pipeline': {
-      id: '/pipeline'
-      path: '/pipeline'
-      fullPath: '/pipeline'
-      preLoaderRoute: typeof PipelineRouteImport
+    '/recruiters': {
+      id: '/recruiters'
+      path: '/recruiters'
+      fullPath: '/recruiters'
+      preLoaderRoute: typeof RecruitersRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/settings': {
-      id: '/settings'
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/candidates': {
+      id: '/app/candidates'
+      path: '/candidates'
+      fullPath: '/app/candidates'
+      preLoaderRoute: typeof AppCandidatesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/cv-lists': {
+      id: '/app/cv-lists'
+      path: '/cv-lists'
+      fullPath: '/app/cv-lists'
+      preLoaderRoute: typeof AppCvListsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/jobs': {
+      id: '/app/jobs'
+      path: '/jobs'
+      fullPath: '/app/jobs'
+      preLoaderRoute: typeof AppJobsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/pipeline': {
+      id: '/app/pipeline'
+      path: '/pipeline'
+      fullPath: '/app/pipeline'
+      preLoaderRoute: typeof AppPipelineRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/settings': {
+      id: '/app/settings'
       path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
     }
   }
 }
 
+interface AppRouteChildren {
+  AppCandidatesRoute: typeof AppCandidatesRoute
+  AppCvListsRoute: typeof AppCvListsRoute
+  AppJobsRoute: typeof AppJobsRoute
+  AppPipelineRoute: typeof AppPipelineRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppCandidatesRoute: AppCandidatesRoute,
+  AppCvListsRoute: AppCvListsRoute,
+  AppJobsRoute: AppJobsRoute,
+  AppPipelineRoute: AppPipelineRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CandidatesRoute: CandidatesRoute,
-  CvListsRoute: CvListsRoute,
+  AppRoute: AppRouteWithChildren,
   JobsRoute: JobsRoute,
-  PipelineRoute: PipelineRoute,
-  SettingsRoute: SettingsRoute,
+  RecruitersRoute: RecruitersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

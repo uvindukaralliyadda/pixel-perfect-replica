@@ -9,7 +9,7 @@ export function StageStepper({ stages }: { stages: (Stage & { count: number })[]
       {stages.map((s, i) => (
         <li key={s.id} className="relative flex items-center">
           <Link
-            to="/pipeline"
+            to="/app/pipeline"
             aria-label={`${s.name}: ${s.count} candidates`}
             className="group flex w-full flex-col items-center gap-2 rounded-2xl px-2 py-4 text-center transition-all duration-150 hover:-translate-y-0.5 hover:bg-primary hover:text-primary-foreground"
           >

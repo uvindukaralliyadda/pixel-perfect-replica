@@ -14,17 +14,17 @@ import {
 
 export interface NavItem {
   title: string;
-  to: "/" | "/jobs" | "/candidates" | "/cv-lists" | "/pipeline" | "/settings";
+  to: "/app" | "/app/jobs" | "/app/candidates" | "/app/cv-lists" | "/app/pipeline" | "/app/settings";
   icon: LucideIcon;
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { title: "Dashboard", to: "/", icon: LayoutDashboard },
-  { title: "Jobs", to: "/jobs", icon: Briefcase },
-  { title: "Candidates", to: "/candidates", icon: Users },
-  { title: "CV Lists", to: "/cv-lists", icon: FileText },
-  { title: "Pipeline", to: "/pipeline", icon: Kanban },
-  { title: "Settings", to: "/settings", icon: Settings },
+  { title: "Dashboard", to: "/app", icon: LayoutDashboard },
+  { title: "Jobs", to: "/app/jobs", icon: Briefcase },
+  { title: "Candidates", to: "/app/candidates", icon: Users },
+  { title: "CV Lists", to: "/app/cv-lists", icon: FileText },
+  { title: "Pipeline", to: "/app/pipeline", icon: Kanban },
+  { title: "Settings", to: "/app/settings", icon: Settings },
 ];
 
 export const COMING_SOON: { title: string; icon: LucideIcon }[] = [
@@ -35,4 +35,4 @@ export const COMING_SOON: { title: string; icon: LucideIcon }[] = [
 ];
 
 export const titleForPath = (path: string) =>
-  NAV_ITEMS.find((n) => n.to === path)?.title ?? "Recruit ERP";
+  NAV_ITEMS.find((n) => n.to === path.replace(/\/$/, ""))?.title ?? "Recruit ERP";
