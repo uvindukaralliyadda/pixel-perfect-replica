@@ -14,12 +14,12 @@ import {
 
 export interface NavItem {
   title: string;
-  to: "/app/app" | "/app/jobs" | "/app/candidates" | "/app/cv-lists" | "/app/pipeline" | "/app/settings";
+  to: "/app" | "/app/jobs" | "/app/candidates" | "/app/cv-lists" | "/app/pipeline" | "/app/settings";
   icon: LucideIcon;
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { title: "Dashboard", to: "/app/app", icon: LayoutDashboard },
+  { title: "Dashboard", to: "/app", icon: LayoutDashboard },
   { title: "Jobs", to: "/app/jobs", icon: Briefcase },
   { title: "Candidates", to: "/app/candidates", icon: Users },
   { title: "CV Lists", to: "/app/cv-lists", icon: FileText },
