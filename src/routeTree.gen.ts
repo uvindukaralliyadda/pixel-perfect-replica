@@ -14,11 +14,17 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as JobsRouteImport } from './routes/jobs'
 import { Route as RecruitersRouteImport } from './routes/recruiters'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppAppliedRouteImport } from './routes/app.applied'
+import { Route as AppBureauRouteImport } from './routes/app.bureau'
 import { Route as AppCandidatesRouteImport } from './routes/app.candidates'
-import { Route as AppCvListsRouteImport } from './routes/app.cv-lists'
+import { Route as AppDepartureRouteImport } from './routes/app.departure'
 import { Route as AppJobsRouteImport } from './routes/app.jobs'
-import { Route as AppPipelineRouteImport } from './routes/app.pipeline'
+import { Route as AppMedicalRouteImport } from './routes/app.medical'
+import { Route as AppOfferRouteImport } from './routes/app.offer'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppSortedRouteImport } from './routes/app.sorted'
+import { Route as AppTicketRouteImport } from './routes/app.ticket'
+import { Route as AppVisaRouteImport } from './routes/app.visa'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -45,14 +51,24 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAppliedRoute = AppAppliedRouteImport.update({
+  id: '/applied',
+  path: '/applied',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBureauRoute = AppBureauRouteImport.update({
+  id: '/bureau',
+  path: '/bureau',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppCandidatesRoute = AppCandidatesRouteImport.update({
   id: '/candidates',
   path: '/candidates',
   getParentRoute: () => AppRoute,
 } as any)
-const AppCvListsRoute = AppCvListsRouteImport.update({
-  id: '/cv-lists',
-  path: '/cv-lists',
+const AppDepartureRoute = AppDepartureRouteImport.update({
+  id: '/departure',
+  path: '/departure',
   getParentRoute: () => AppRoute,
 } as any)
 const AppJobsRoute = AppJobsRouteImport.update({
@@ -60,14 +76,34 @@ const AppJobsRoute = AppJobsRouteImport.update({
   path: '/jobs',
   getParentRoute: () => AppRoute,
 } as any)
-const AppPipelineRoute = AppPipelineRouteImport.update({
-  id: '/pipeline',
-  path: '/pipeline',
+const AppMedicalRoute = AppMedicalRouteImport.update({
+  id: '/medical',
+  path: '/medical',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOfferRoute = AppOfferRouteImport.update({
+  id: '/offer',
+  path: '/offer',
   getParentRoute: () => AppRoute,
 } as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSortedRoute = AppSortedRouteImport.update({
+  id: '/sorted',
+  path: '/sorted',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTicketRoute = AppTicketRouteImport.update({
+  id: '/ticket',
+  path: '/ticket',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppVisaRoute = AppVisaRouteImport.update({
+  id: '/visa',
+  path: '/visa',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -76,22 +112,34 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteWithChildren
   '/jobs': typeof JobsRoute
   '/recruiters': typeof RecruitersRoute
+  '/app/applied': typeof AppAppliedRoute
+  '/app/bureau': typeof AppBureauRoute
   '/app/candidates': typeof AppCandidatesRoute
-  '/app/cv-lists': typeof AppCvListsRoute
+  '/app/departure': typeof AppDepartureRoute
   '/app/jobs': typeof AppJobsRoute
-  '/app/pipeline': typeof AppPipelineRoute
+  '/app/medical': typeof AppMedicalRoute
+  '/app/offer': typeof AppOfferRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/sorted': typeof AppSortedRoute
+  '/app/ticket': typeof AppTicketRoute
+  '/app/visa': typeof AppVisaRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/jobs': typeof JobsRoute
   '/recruiters': typeof RecruitersRoute
+  '/app/applied': typeof AppAppliedRoute
+  '/app/bureau': typeof AppBureauRoute
   '/app/candidates': typeof AppCandidatesRoute
-  '/app/cv-lists': typeof AppCvListsRoute
+  '/app/departure': typeof AppDepartureRoute
   '/app/jobs': typeof AppJobsRoute
-  '/app/pipeline': typeof AppPipelineRoute
+  '/app/medical': typeof AppMedicalRoute
+  '/app/offer': typeof AppOfferRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/sorted': typeof AppSortedRoute
+  '/app/ticket': typeof AppTicketRoute
+  '/app/visa': typeof AppVisaRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -100,11 +148,17 @@ export interface FileRoutesById {
   '/app': typeof AppRouteWithChildren
   '/jobs': typeof JobsRoute
   '/recruiters': typeof RecruitersRoute
+  '/app/applied': typeof AppAppliedRoute
+  '/app/bureau': typeof AppBureauRoute
   '/app/candidates': typeof AppCandidatesRoute
-  '/app/cv-lists': typeof AppCvListsRoute
+  '/app/departure': typeof AppDepartureRoute
   '/app/jobs': typeof AppJobsRoute
-  '/app/pipeline': typeof AppPipelineRoute
+  '/app/medical': typeof AppMedicalRoute
+  '/app/offer': typeof AppOfferRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/sorted': typeof AppSortedRoute
+  '/app/ticket': typeof AppTicketRoute
+  '/app/visa': typeof AppVisaRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
@@ -114,22 +168,34 @@ export interface FileRouteTypes {
     | '/app'
     | '/jobs'
     | '/recruiters'
+    | '/app/applied'
+    | '/app/bureau'
     | '/app/candidates'
-    | '/app/cv-lists'
+    | '/app/departure'
     | '/app/jobs'
-    | '/app/pipeline'
+    | '/app/medical'
+    | '/app/offer'
     | '/app/settings'
+    | '/app/sorted'
+    | '/app/ticket'
+    | '/app/visa'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/jobs'
     | '/recruiters'
+    | '/app/applied'
+    | '/app/bureau'
     | '/app/candidates'
-    | '/app/cv-lists'
+    | '/app/departure'
     | '/app/jobs'
-    | '/app/pipeline'
+    | '/app/medical'
+    | '/app/offer'
     | '/app/settings'
+    | '/app/sorted'
+    | '/app/ticket'
+    | '/app/visa'
     | '/app'
   id:
     | '__root__'
@@ -137,11 +203,17 @@ export interface FileRouteTypes {
     | '/app'
     | '/jobs'
     | '/recruiters'
+    | '/app/applied'
+    | '/app/bureau'
     | '/app/candidates'
-    | '/app/cv-lists'
+    | '/app/departure'
     | '/app/jobs'
-    | '/app/pipeline'
+    | '/app/medical'
+    | '/app/offer'
     | '/app/settings'
+    | '/app/sorted'
+    | '/app/ticket'
+    | '/app/visa'
     | '/app/'
   fileRoutesById: FileRoutesById
 }
@@ -189,6 +261,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/applied': {
+      id: '/app/applied'
+      path: '/applied'
+      fullPath: '/app/applied'
+      preLoaderRoute: typeof AppAppliedRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/bureau': {
+      id: '/app/bureau'
+      path: '/bureau'
+      fullPath: '/app/bureau'
+      preLoaderRoute: typeof AppBureauRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/candidates': {
       id: '/app/candidates'
       path: '/candidates'
@@ -196,11 +282,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCandidatesRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/cv-lists': {
-      id: '/app/cv-lists'
-      path: '/cv-lists'
-      fullPath: '/app/cv-lists'
-      preLoaderRoute: typeof AppCvListsRouteImport
+    '/app/departure': {
+      id: '/app/departure'
+      path: '/departure'
+      fullPath: '/app/departure'
+      preLoaderRoute: typeof AppDepartureRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/jobs': {
@@ -210,11 +296,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppJobsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/pipeline': {
-      id: '/app/pipeline'
-      path: '/pipeline'
-      fullPath: '/app/pipeline'
-      preLoaderRoute: typeof AppPipelineRouteImport
+    '/app/medical': {
+      id: '/app/medical'
+      path: '/medical'
+      fullPath: '/app/medical'
+      preLoaderRoute: typeof AppMedicalRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/offer': {
+      id: '/app/offer'
+      path: '/offer'
+      fullPath: '/app/offer'
+      preLoaderRoute: typeof AppOfferRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/settings': {
@@ -224,24 +317,57 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/sorted': {
+      id: '/app/sorted'
+      path: '/sorted'
+      fullPath: '/app/sorted'
+      preLoaderRoute: typeof AppSortedRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/ticket': {
+      id: '/app/ticket'
+      path: '/ticket'
+      fullPath: '/app/ticket'
+      preLoaderRoute: typeof AppTicketRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/visa': {
+      id: '/app/visa'
+      path: '/visa'
+      fullPath: '/app/visa'
+      preLoaderRoute: typeof AppVisaRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppAppliedRoute: typeof AppAppliedRoute
+  AppBureauRoute: typeof AppBureauRoute
   AppCandidatesRoute: typeof AppCandidatesRoute
-  AppCvListsRoute: typeof AppCvListsRoute
+  AppDepartureRoute: typeof AppDepartureRoute
   AppJobsRoute: typeof AppJobsRoute
-  AppPipelineRoute: typeof AppPipelineRoute
+  AppMedicalRoute: typeof AppMedicalRoute
+  AppOfferRoute: typeof AppOfferRoute
   AppSettingsRoute: typeof AppSettingsRoute
+  AppSortedRoute: typeof AppSortedRoute
+  AppTicketRoute: typeof AppTicketRoute
+  AppVisaRoute: typeof AppVisaRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAppliedRoute: AppAppliedRoute,
+  AppBureauRoute: AppBureauRoute,
   AppCandidatesRoute: AppCandidatesRoute,
-  AppCvListsRoute: AppCvListsRoute,
+  AppDepartureRoute: AppDepartureRoute,
   AppJobsRoute: AppJobsRoute,
-  AppPipelineRoute: AppPipelineRoute,
+  AppMedicalRoute: AppMedicalRoute,
+  AppOfferRoute: AppOfferRoute,
   AppSettingsRoute: AppSettingsRoute,
+  AppSortedRoute: AppSortedRoute,
+  AppTicketRoute: AppTicketRoute,
+  AppVisaRoute: AppVisaRoute,
   AppIndexRoute: AppIndexRoute,
 }
 

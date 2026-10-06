@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,11 +6,15 @@ import { cn } from "@/lib/utils";
 import { AppSidebar } from "./AppSidebar";
 import { TopBar } from "./TopBar";
 import { titleForPath } from "./nav";
+import { hydrateStore } from "@/data/store";
 
 export function AppLayout({ children }: { children: ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const path = useRouterState({ select: (s) => s.location.pathname });
+
+  // Restore saved uploads and comments after mount (kept out of SSR output).
+  useEffect(() => hydrateStore(), []);
 
   return (
     <TooltipProvider delayDuration={100}>

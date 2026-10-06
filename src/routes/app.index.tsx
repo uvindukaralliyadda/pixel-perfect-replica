@@ -3,6 +3,7 @@ import {
   AlertCircle,
   ArrowRight,
   Briefcase,
+  Flag,
   Inbox,
   PlaneTakeoff,
   Plus,
@@ -11,19 +12,12 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { StatCard } from "@/components/erp/StatCard";
-import { StageStepper } from "@/components/erp/StageStepper";
+import { StageOverview } from "@/components/erp/StageOverview";
 import { DataTable, type Column } from "@/components/erp/DataTable";
 import { StatusPill } from "@/components/erp/StatusPill";
-import {
-  dashboardStats,
-  jobById,
-  needsAttention,
-  recentApplications,
-  stageById,
-  stageCounts,
-  type Candidate,
-} from "@/data/mock";
-import { useMockStore } from "@/data/store";
+import { STAGES, jobById, stageById, type Candidate } from "@/data/mock";
+import { dashboardStats, recentApplications, useCandidates, useStageCounts } from "@/data/store";
+import { daysInStage, enteredStageAt, fmtDate } from "@/lib/format";
 
 export const Route = createFileRoute("/app/")({
   head: () => ({
@@ -37,15 +31,12 @@ export const Route = createFileRoute("/app/")({
   component: Dashboard,
 });
 
-const fmt = (iso: string) =>
-  new Date(iso).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
-
 const columns: Column<Candidate>[] = [
   { key: "tid", header: "Tracking ID", cell: (c) => <span className="font-mono text-xs font-medium">{c.trackingId}</span> },
-  { key: "name", header: "Candidate", cell: (c) => <span className="font-semibold">{c.name}</span> },
+  { key: "name", header: "Candidate", cell: (c) => <span className="font-semibold">{c.fullName}</span> },
   { key: "job", header: "Job", cell: (c) => { const j = jobById(c.jobId); return <span>{j.title} <span className="text-muted-foreground">· {j.country}</span></span>; } },
   { key: "stage", header: "Current stage", cell: (c) => <StatusPill stage={c.stage} /> },
-  { key: "date", header: "Applied", cell: (c) => <span className="text-muted-foreground">{fmt(c.appliedDate)}</span> },
+  { key: "date", header: "Applied", cell: (c) => <span className="text-muted-foreground">{fmtDate(c.appliedAt)}</span> },
 ];
 
 function greeting() {
@@ -55,9 +46,22 @@ function greeting() {
 
 function Dashboard() {
   const today = new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
-  useMockStore();
-  const DASHBOARD_STATS = dashboardStats();
-  const stuck = needsAttention();
+  const candidates = useCandidates();
+  const counts = useStageCounts();
+  const s = dashboardStats(candidates);
+  const DASHBOARD_STATS = {
+    newApplications: { value: s.newApplications, trend: "+12 today" },
+    activeCandidates: { value: s.activeCandidates, trend: "+5 this week" },
+    openJobs: { value: s.openJobs, trend: "+2 this month" },
+    departures: { value: s.departures, trend: "+1 today" },
+  };
+  const now = Date.now();
+  // Important notes written in the current stage come first, then candidates with no movement.
+  const flagged = (c: Candidate) => c.comments.some((m) => m.important && m.stage === c.stage);
+  const stuck = candidates
+    .filter((c) => c.stage !== "completed" && c.status === "active" && (flagged(c) || daysInStage(c, now) >= 7))
+    .sort((a, b) => Number(flagged(b)) - Number(flagged(a)) || enteredStageAt(a).localeCompare(enteredStageAt(b)))
+    .slice(0, 5);
 
   return (
     <div className="space-y-8">
@@ -82,17 +86,17 @@ function Dashboard() {
       <section className="rounded-2xl border border-border bg-card p-6">
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-xl font-bold tracking-tight">Pipeline overview</h3>
-          <Link to="/app/pipeline" className="inline-flex items-center gap-1 text-sm font-semibold hover:underline">
+          <Link to="/app/applied" className="inline-flex items-center gap-1 text-sm font-semibold hover:underline">
             Open pipeline <ArrowRight className="size-4" strokeWidth={1.75} />
           </Link>
         </div>
-        <StageStepper stages={stageCounts()} />
+        <StageOverview stages={STAGES.map((st) => ({ ...st, count: counts[st.id] }))} />
       </section>
 
       <section className="grid gap-6 xl:grid-cols-3">
         <div className="rounded-2xl border border-border bg-card p-6 xl:col-span-2">
           <h3 className="mb-4 text-xl font-bold tracking-tight">Recent applications</h3>
-          <DataTable columns={columns} rows={recentApplications()} rowKey={(c) => c.id} />
+          <DataTable columns={columns} rows={recentApplications(candidates)} rowKey={(c) => c.id} />
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-6">
@@ -100,23 +104,31 @@ function Dashboard() {
             <AlertCircle className="size-6" strokeWidth={1.5} />
             <h3 className="text-xl font-bold tracking-tight">Needs attention</h3>
           </div>
-          <p className="mb-4 text-sm text-muted-foreground">No movement for 7 days or more</p>
+          <p className="mb-4 text-sm text-muted-foreground">Important notes, or no movement for 7 days or more</p>
           <ul className="divide-y divide-border">
             {stuck.map((c) => {
-              const s = stageById(c.stage);
+              if (c.stage === "completed") return null;
+              const stg = stageById(c.stage);
               return (
                 <li key={c.id} className="flex items-center gap-3 py-3">
                   <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted">
                     <AlertCircle className="size-5" strokeWidth={1.5} aria-label="Stuck" />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-semibold">{c.name}</p>
+                    <p className="truncate font-semibold">{c.fullName}</p>
                     <p className="flex items-center gap-1 text-xs text-muted-foreground">
-                      <s.icon className="size-3.5" strokeWidth={1.75} aria-hidden /> {s.name} · {c.daysInStage} days
+                      <stg.icon className="size-3.5" strokeWidth={1.75} aria-hidden /> {stg.name} · {daysInStage(c, now)} days
+                      {flagged(c) && (
+                        <span className="ml-1 inline-flex items-center gap-1 font-semibold text-foreground">
+                          <Flag className="size-3.5" strokeWidth={1.75} aria-hidden /> Important
+                        </span>
+                      )}
                     </p>
                   </div>
-                  <Button variant="secondary" size="sm" aria-label={`Open ${c.name}`} className="h-9">
-                    Open <ArrowRight strokeWidth={1.75} />
+                  <Button asChild variant="secondary" size="sm" className="h-9">
+                    <Link to={stg.to} aria-label={`Open ${c.fullName} in ${stg.name}`}>
+                      Open <ArrowRight strokeWidth={1.75} />
+                    </Link>
                   </Button>
                 </li>
               );

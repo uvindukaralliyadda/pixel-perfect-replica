@@ -1,41 +1,37 @@
-import { Link } from "@tanstack/react-router";
-import { ChevronRight } from "lucide-react";
-import type { Stage } from "@/data/mock";
+import { Check } from "lucide-react";
+import { STAGES, type CandidateStage } from "@/data/mock";
+import { cn } from "@/lib/utils";
 
-export function StageStepper({ stages }: { stages: (Stage & { count: number })[] }) {
-  const max = Math.max(...stages.map((s) => s.count), 1);
+/** Horizontal 8-stage progress: current = solid black, done = outlined with tick, future = grey. */
+export function StageStepper({ stage }: { stage: CandidateStage }) {
+  const current = stage === "completed" ? STAGES.length : STAGES.findIndex((s) => s.id === stage);
   return (
-    <ol className="grid grid-cols-2 gap-3 sm:grid-cols-4 xl:grid-cols-8 xl:gap-0">
-      {stages.map((s, i) => (
-        <li key={s.id} className="relative flex items-center">
-          <Link
-            to="/app/pipeline"
-            aria-label={`${s.name}: ${s.count} candidates`}
-            className="group flex w-full flex-col items-center gap-2 rounded-2xl px-2 py-4 text-center transition-all duration-150 hover:-translate-y-0.5 hover:bg-primary hover:text-primary-foreground"
-          >
-            <span className="flex size-12 items-center justify-center rounded-full border-[1.5px] border-foreground bg-card text-foreground transition-colors duration-150 group-hover:border-primary-foreground group-hover:bg-primary-foreground group-hover:text-primary">
-              <s.icon className="size-5" strokeWidth={1.5} />
+    <ol aria-label="Pipeline progress" className="flex gap-1 overflow-x-auto pb-1">
+      {STAGES.map((s, i) => {
+        const done = i < current;
+        const isCurrent = i === current;
+        return (
+          <li key={s.id} aria-current={isCurrent ? "step" : undefined} className="flex min-w-[56px] flex-1 flex-col items-center gap-1.5">
+            <span
+              className={cn(
+                "relative flex size-10 items-center justify-center rounded-full border-[1.5px]",
+                isCurrent && "border-primary bg-primary text-primary-foreground",
+                done && "border-foreground bg-card text-foreground",
+                !isCurrent && !done && "border-border bg-muted text-muted-foreground",
+              )}
+            >
+              <s.icon className="size-[18px]" strokeWidth={1.5} aria-hidden />
+              {done && (
+                <span className="absolute -bottom-1 -right-1 flex size-4 items-center justify-center rounded-full bg-primary text-primary-foreground ring-2 ring-card">
+                  <Check className="size-2.5" strokeWidth={3} aria-hidden />
+                </span>
+              )}
             </span>
-            <span className="text-2xl font-extrabold leading-none">{s.count}</span>
-            <span className="text-xs font-medium text-muted-foreground group-hover:text-primary-foreground/80">
-              {s.name}
-            </span>
-            <span className="mt-1 h-1 w-full max-w-20 overflow-hidden rounded-full bg-border">
-              <span
-                className="block h-full rounded-full bg-primary group-hover:bg-primary-foreground"
-                style={{ width: `${(s.count / max) * 100}%` }}
-              />
-            </span>
-          </Link>
-          {i < stages.length - 1 && (
-            <ChevronRight
-              className="absolute -right-2.5 top-10 hidden size-5 text-muted-foreground xl:block"
-              strokeWidth={1.5}
-              aria-hidden
-            />
-          )}
-        </li>
-      ))}
+            <span className={cn("text-[11px] font-medium", isCurrent ? "text-foreground" : "text-muted-foreground")}>{s.name}</span>
+            <span className="sr-only">{done ? "completed" : isCurrent ? "current stage" : "upcoming"}</span>
+          </li>
+        );
+      })}
     </ol>
   );
 }

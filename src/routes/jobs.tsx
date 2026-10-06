@@ -98,7 +98,18 @@ function ApplyPanel({ job }: { job: Job }) {
     if (!consent) er.consent = "Please agree to continue";
     setErrors(er);
     if (Object.keys(er).length) return;
-    const c = addCandidate({ name: f.name.trim(), nic: f.nic.trim(), phone: f.phone.trim(), jobId: job.id });
+    const labels: Record<string, string> = { cv: "CV", passport: "Passport", photo: "Photo", certs: "Certificate" };
+    const c = addCandidate({
+      name: f.name.trim(),
+      nic: f.nic.trim(),
+      phone: f.phone.trim(),
+      whatsapp: f.whatsapp.trim(),
+      email: f.email.trim(),
+      address: f.address.trim(),
+      dob: f.dob,
+      jobId: job.id,
+      files: Object.entries(files).flatMap(([k, file]) => (file ? [{ type: labels[k]!, file }] : [])),
+    });
     setDone(c.trackingId);
   };
 
